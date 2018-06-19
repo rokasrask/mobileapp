@@ -1,0 +1,81 @@
+package com.example.moksleivis.mobileapp;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class addClient extends AppCompatActivity {
+    //calling variables
+    DbAdapter db;
+    EditText etvardas,etnumeris,etdata,ettipas;
+    String vardas,numeris,data,tipas;
+    Button btnSave;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.store_contact);
+        //get data from text feld
+        etvardas =(EditText)findViewById(R.id.vardas);
+        etnumeris =(EditText)findViewById(R.id.numeris);
+        etdata =(EditText)findViewById(R.id.data);
+        ettipas = (EditText)findViewById(R.id.tipas);
+        //calling DbAdapter
+        db = new DbAdapter(this);
+        db.open();
+        btnSave = (Button)findViewById(R.id.save);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                if(!Validation.isValidCredentials(etvardas.getText().toString())){
+                    Toast.makeText(getApplicationContext(),
+                            "Netinkamas Vardas tiktai raidės", Toast.LENGTH_LONG).show();
+                }else if(!Validation.isValidNumeris(etnumeris.getText().toString())){
+                    Toast.makeText(getApplicationContext(),
+                            "Netinkamas numeris tiktai skaiciai", Toast.LENGTH_LONG).show();
+                }else if(!Validation.isValidCredentials(ettipas.getText().toString())){
+                    Toast.makeText(getApplicationContext(),
+                            "Netinkamas tipas tiktai raidės", Toast.LENGTH_LONG).show();
+                }else if(!Validation.isValidData(etdata.getText().toString())){
+                    Toast.makeText(getApplicationContext(),
+                            "Netinkama data nuo 1900 iki 2018", Toast.LENGTH_LONG).show();
+                }else{// validated
+
+                    vardas=etvardas.getText().toString();
+                    numeris=etnumeris.getText().toString();
+                    data=etdata.getText().toString();
+                    tipas=ettipas.getText().toString();
+                    db.insert(vardas,numeris,data,tipas);
+                    Toast.makeText(getApplicationContext(),"Contact added", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    /**
+    public void Save(View v){
+        if(db.isExist(numeris)){
+            Toast.makeText(getApplicationContext(),"already exist", Toast.LENGTH_SHORT).show();
+        }else{
+            vardas=etvardas.getText().toString();
+            numeris=etnumeris.getText().toString();
+            data=etdata.getText().toString();
+            tipas=ettipas.getText().toString();
+            db.insert(vardas,numeris,data,tipas);
+            Toast.makeText(getApplicationContext(),"Contact added", Toast.LENGTH_SHORT).show();
+        }
+
+    }**/
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
+    }
+
+}
