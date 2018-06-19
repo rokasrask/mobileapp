@@ -57,6 +57,7 @@ public class EditContact extends AppCompatActivity {
                 }else{// validated
 
 
+                    
                     vardas=etvardas.getText().toString();
                     numeris=etnumeris.getText().toString();
                     data=etdata.getText().toString();
