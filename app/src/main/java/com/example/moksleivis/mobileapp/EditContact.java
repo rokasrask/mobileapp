@@ -56,6 +56,7 @@ public class EditContact extends AppCompatActivity {
                             "Netinkama data nuo 1900 iki 2018", Toast.LENGTH_LONG).show();
                 }else{// validated
 
+
                     vardas=etvardas.getText().toString();
                     numeris=etnumeris.getText().toString();
                     data=etdata.getText().toString();
